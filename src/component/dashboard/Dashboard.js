@@ -14,7 +14,7 @@ const Dashboard = () => {
 
     const handleLogin = async () => {
         if (token === PASS) {
-            await signin("admin", "admin", false);
+            await signin("admin", "@IntelliWealth2023", false);
             handleClose();
         } else {
             setOpen(true);
