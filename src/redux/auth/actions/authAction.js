@@ -1,6 +1,5 @@
 // import baseAPI from '../../baseAPI';
 import authAPI from '../../authAPI';
-import accountAPI from '../../accountAPI';
 import { ActionTypes } from "../type";
 
 export const login = (login, password, rememberMe) => {
@@ -49,9 +48,6 @@ export const simpleLogin = async (login, password, rememberMe) => {
         });
         if (response.status === 200) {
             localStorage.setItem('token', response.data.id_token);
-            localStorage.setItem('login', login);
-            localStorage.setItem('userId', response.data.user.id);
-            localStorage.setItem('userEmail', response.data.user.email);
             return response.data;
         } else {
             localStorage.clear();
@@ -59,7 +55,7 @@ export const simpleLogin = async (login, password, rememberMe) => {
         }
     } catch (error) {
         localStorage.clear();
-        console.log(error);
+        console.log("error", error);
         return null;
     }
 }
@@ -155,28 +151,6 @@ export const changePassword = (data) => async (dispatch, getState) => {
         dispatch({
             type: ActionTypes.LOGIN_FAIL,
             payload: response.data
-        });
-    }
-}
-
-export const getUser = () => async (dispatch, getState) => {
-    try {
-        const response = await accountAPI.get("account");
-        if (response.status === 200) {
-            dispatch({
-                type: ActionTypes.FETCH_USER_DETAIL,
-                payload: response.data
-            });
-        } else {
-            dispatch({
-                type: ActionTypes.LOGIN_FAIL,
-                payload: response.data
-            });
-        }
-    } catch (error) {
-        dispatch({
-            type: ActionTypes.LOGIN_FAIL,
-            payload: error
         });
     }
 }

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { constants } from "../config/constants";
 
-axios.defaults.baseURL = constants.API_AUTH_URL;
+axios.defaults.baseURL = constants.API_URL_V2;
 
-const accountAPI = axios.create(
+const baseAPI2 = axios.create(
     {
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const accountAPI = axios.create(
     }
 );
 
-accountAPI.interceptors.request.use(
+baseAPI2.interceptors.request.use(
     async config => {
         const token = await localStorage.getItem('token')
         if (token) {
@@ -27,5 +27,5 @@ accountAPI.interceptors.request.use(
 )
 
 
-export default accountAPI;
+export default baseAPI2;
 

@@ -1,6 +1,6 @@
 //react redux store
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from './shared/reducers/index';
+import reducers from './combinedReducer';
 import thunk from 'redux-thunk';
 
 

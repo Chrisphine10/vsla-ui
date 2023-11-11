@@ -17,10 +17,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { People, Person, Dashboard } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -116,8 +113,9 @@ const NavBar = () => {
 
 
     const menuItems = [
-        { icon: <DashboardIcon />, text: 'Dashboard', to: '/' },
-        { icon: <LocalShippingIcon />, text: 'Zones', to: '/zones' },
+        { icon: <Dashboard />, text: 'Dashboard', to: '/' },
+        { icon: <Person />, text: 'Members', to: '/members' },
+        { icon: <People />, text: 'Groups', to: '/groups' },
     ];
 
     const iconStyles = {
@@ -155,7 +153,7 @@ const NavBar = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Farmica
+                        VSLA MIS APP
                     </Typography>
 
                 </Toolbar>
@@ -190,37 +188,7 @@ const NavBar = () => {
                     ))}
                 </List>
                 <Divider />
-                <List>
-                    {['Account', 'Logout'].map((text, index) => (
-                        <ListItem key={text} sx={{ display: 'block' }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                                onClick={() => {
-                                    if (text === 'Logout') {
-                                        logout();
-                                    } else {
-                                        window.location.href = '/user-details';
-                                    }
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    {index === 0 ? <AccountCircleIcon /> : <ExitToAppIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
+
             </Drawer >
             <Box component="main" sx={{ flexGrow: 1 }}>
                 <DrawerHeader />
