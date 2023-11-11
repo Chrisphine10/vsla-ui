@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Container } from '@mui/material';
+import './App.css'; // You can create this file to add custom styles if needed
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ErrorBoundary from './ErrorBoundary';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Dashboard from './component/dashboard/Dashboard';
+import { AuthProvider } from "./helper/auth/AuthProvider";
 
 function App() {
+  const defaultTheme = createTheme();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ErrorBoundary>
+      <ThemeProvider theme={defaultTheme}>
+        <AuthProvider>
+          <Container>
+            <Router>
+              <div className="content-container">
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                </Routes>
+              </div>
+            </Router>
+          </Container>
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
