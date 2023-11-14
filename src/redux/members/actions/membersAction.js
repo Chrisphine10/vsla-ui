@@ -5,7 +5,7 @@ import { ActionTypes } from "../type";
 export const fetchMembers = () => async (dispatch) => {
     try {
         // add pagination
-        const response = await baseAPI2.get('/member-details/all');
+        const response = await baseAPI.get('/member-details?size=1600&eagerload=false');
         const members = response.data.map((member) => ({
             id: member.id,
             userNumber: member.userNumber,
