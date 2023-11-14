@@ -79,7 +79,10 @@ const Members = (props) => {
         <Layout>
             <div>
                 <h1>Members List </h1>
-                <Button variant="outlined" color="primary" href="/members/add">Add Member</Button>
+                <div>
+                    {loading ? <Button variant="outlined" color="primary" href="/members/add">Add Member</Button> : <div></div>}
+                </div>
+                <br />
                 {loading ? <DataGrid
                     autoHeight={true}
                     rows={members}

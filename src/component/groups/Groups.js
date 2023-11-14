@@ -92,7 +92,10 @@ const Groups = (props) => {
         <Layout>
             <div>
                 <h1>Groups List </h1>
-                <Button variant="outlined" color="primary" onClick={() => navigate('/groups/add')}> Add Group</Button>
+                <div>
+                    {loading ? <Button variant="outlined" color="primary" onClick={() => navigate('/groups/add')}> Add Group</Button> : <div></div>}
+                </div>
+                <br />
                 {loading ? <DataGrid
                     autoHeight={true}
                     rows={groups}
