@@ -11,7 +11,7 @@ import { format } from 'date-fns';
 
 const AddMember = (props) => {
     const dispatch = useDispatch();
-    //const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const groups = useSelector((state) => state.group.groups);
     const membersInGroup = useSelector((state) => state.group.members);
     const member = useSelector((state) => state.member.member);
@@ -20,6 +20,7 @@ const AddMember = (props) => {
     const navigate = useNavigate();
     const { id } = useParams();
     let i = 0;
+    const [loadingUserNumber, setLoadingUserNumber] = useState(false);
 
     const [memberState, setMemberState] = useState({
         userNumber: 0,
@@ -74,37 +75,41 @@ const AddMember = (props) => {
         }
     }, [dispatch, id]);
 
-    const handleGroupChange = (e) => {
+    const handleGroupChange = async (e) => {
         setMemberState({
             ...memberState,
             villageGroup: {
                 id: e.target.value,
             }
         });
-        dispatch(fetchMemberGroupsById(e.target.value));
+        await dispatch(fetchMemberGroupsById(e.target.value));
         console.log(e.target.value);
+
     }
 
     useEffect(() => {
-        const getUserNumber = () => {
-            // check for the last user number in the group
-            let lastUserNumber = 1;
-            if (membersInGroup.length > 0) {
-                for (let i = 0; i < membersInGroup.length; i++) {
-                    if (membersInGroup[i].userNumber > lastUserNumber) {
-                        lastUserNumber = membersInGroup[i].userNumber;
-                    }
-                }
-            }
-            setUserNumber(lastUserNumber);
-        }
+        // const getUserNumber = () => {
+        //     // check for the last user number in the group
+        //     // let lastUserNumber = 1;
+        //     // if (membersInGroup.length > 0) {
+        //     //     for (let i = 0; i < membersInGroup.length; i++) {
+        //     //         if (membersInGroup[i].userNumber > lastUserNumber) {
+        //     //             lastUserNumber = membersInGroup[i].userNumber;
+        //     //         }
+        //     //     }
+        //     // }
+        //     setUserNumber(membersInGroup.length + 1);
+        // }
 
-        getUserNumber();
+        // getUserNumber();
         setMemberState({
             ...memberState,
-            userNumber: userNumber
+            userNumber: membersInGroup.length + 1,
         });
-        console.log(userNumber);
+        console.log("userNumber: ", membersInGroup.length + 1);
+        return () => {
+            setLoadingUserNumber(false);
+        }
     }, [membersInGroup]);
 
     const removeCodeFromPhoneNumber = (phoneNumber) => {

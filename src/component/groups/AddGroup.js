@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Grid, Alert, InputAdornment, ButtonGroup, Container, MenuItem, InputLabel, TextField, FormControl, Button, Select } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +22,15 @@ const AddGroup = (props) => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     let i = 0;
+
+    const removeCodeFromPhoneNumber = (phoneNumber) => {
+        if (phoneNumber === null || phoneNumber === undefined) {
+            return '';
+
+        }
+        return phoneNumber.replace('254', '');
+    };
+
 
     const [groupState, setGroupState] = useState({
         villageGroupId: '',
@@ -76,6 +86,7 @@ const AddGroup = (props) => {
             ...groupState,
             latitude: latitude,
             longitude: longitude,
+            phoneNumber: '254' + groupState.phoneNumber,
         }
         dispatch(addGroup(thisGroup));
     }
@@ -85,6 +96,7 @@ const AddGroup = (props) => {
             ...groupState,
             latitude: latitude,
             longitude: longitude,
+            phoneNumber: '254' + groupState.phoneNumber,
         }
         console.log(groupState);
         dispatch(updateGroup(thisGroup));
@@ -122,7 +134,7 @@ const AddGroup = (props) => {
                 id: existingGroup.id,
                 villageGroupId: existingGroup.villageGroupId,
                 village: existingGroup.village,
-                phoneNumber: existingGroup.phoneNumber,
+                phoneNumber: removeCodeFromPhoneNumber(existingGroup.phoneNumber),
                 location: existingGroup.location,
                 subLocation: existingGroup.subLocation,
                 latitude: existingGroup.latitude,
@@ -138,8 +150,6 @@ const AddGroup = (props) => {
             });
         }
     }, [existingGroup]);
-
-
 
 
     return (
@@ -243,7 +253,7 @@ const AddGroup = (props) => {
                             margin='normal'
                             fullWidth
                             autoComplete="latitude"
-                            value={latitude}
+                            value={groupState.latitude ? groupState.latitude : latitude}
                             onChange={(e) => setGroupState({ ...groupState, latitude: e.target.value })}
                         />
                     </Grid>
@@ -256,7 +266,7 @@ const AddGroup = (props) => {
                             margin='normal'
                             fullWidth
                             autoComplete="longitude"
-                            value={longitude}
+                            value={groupState.longitude ? groupState.longitude : longitude}
                             onChange={(e) => setGroupState({ ...groupState, longitude: e.target.value })}
                         />
                     </Grid>

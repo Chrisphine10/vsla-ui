@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../menu/Layout';
-import { fetchMembers } from '../../redux/members/actions/membersAction';
+import { fetchMembers, deleteMember, cleanup } from '../../redux/members/actions/membersAction';
 import { useNavigate } from 'react-router-dom';
 
 const Members = (props) => {
@@ -13,6 +13,7 @@ const Members = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        dispatch(cleanup());
         setLoading(false);
         dispatch(fetchMembers());
     }, [dispatch]);
@@ -67,6 +68,16 @@ const Members = (props) => {
                             onClick={() => navigate(`/members/add/${params.row.id}`)}
                         >
                             Edit
+                        </Button>
+                        <Button
+                            size="small"
+                            variant="contained"
+                            color="error"
+                            onClick={() => {
+                                dispatch(deleteMember(params.row));
+                                navigate('/members');
+                            }}
+                        >Delete
                         </Button>
                     </ButtonGroup>
                 </strong>
