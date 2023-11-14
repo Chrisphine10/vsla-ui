@@ -7,7 +7,7 @@ const baseAPI2 = axios.create(
     {
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Accept': '*/*',
         }
     }
 );

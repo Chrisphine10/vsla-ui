@@ -81,9 +81,14 @@ const AddGroup = (props) => {
     }
 
     const handleUpdate = (e) => {
+        const thisGroup = {
+            ...groupState,
+            latitude: latitude,
+            longitude: longitude,
+        }
         console.log(groupState);
-        dispatch(updateGroup(groupState));
-        navigate('/groups/' + groupState.id);
+        dispatch(updateGroup(thisGroup));
+        navigate('/groups/' + thisGroup.id);
     }
 
     const getGroupAbbreviation = (name) => {

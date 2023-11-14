@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, ButtonGroup, Button, Typography, Paper, Divider } from '@mui/material';
 import Layout from '../menu/Layout';
-import { fetchMember } from '../../redux/members/actions/membersAction';
+import { fetchMember, cleanup } from '../../redux/members/actions/membersAction';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const MemberView = (props) => {
@@ -87,6 +87,30 @@ const MemberView = (props) => {
                             </Grid>
                             <Grid item xs={6}>
                                 <Typography variant="h6"> {member.villageGroup}</Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6} >
+                                <Typography variant="h6">Email:</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="h6"> {member.email}</Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6} >
+                                <Typography variant="h6">Gender:</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="h6"> {member.gender}</Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6} >
+                                <Typography variant="h6">Created At:</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="h6"> {member.createdAt}</Typography>
                             </Grid>
                         </Grid>
                     </div>

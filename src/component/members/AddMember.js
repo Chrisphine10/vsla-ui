@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Container, ButtonGroup, Grid, MenuItem, TextField, InputLabel, InputAdornment, FormControl, Button, Select, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../menu/Layout';
 import { fetchGroups, fetchMemberGroupsById } from '../../redux/groups/actions/groupsAction';
-import { fetchMember, cleanup, addMember } from '../../redux/members/actions/membersAction';
+import { fetchMember, cleanup, addMember, updateMember } from '../../redux/members/actions/membersAction';
 import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
 
 const AddMember = (props) => {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
+    //const [loading, setLoading] = useState(false);
     const groups = useSelector((state) => state.group.groups);
     const membersInGroup = useSelector((state) => state.group.members);
     const member = useSelector((state) => state.member.member);
@@ -65,7 +66,7 @@ const AddMember = (props) => {
 
     useEffect(() => {
         dispatch(cleanup());
-        setLoading(false);
+        //setLoading(false);
         dispatch(fetchGroups());
         if (id) {
             dispatch(fetchMember(parseInt(id)));
@@ -107,10 +108,11 @@ const AddMember = (props) => {
     }, [membersInGroup]);
 
     const removeCodeFromPhoneNumber = (phoneNumber) => {
-        return phoneNumber.replace('+254', '');
+        return phoneNumber.replace('254', '');
     };
 
     useEffect(() => {
+        console.log("member", member);
         if (member && member !== null) {
             setMemberState({
                 ...memberState,
@@ -121,6 +123,10 @@ const AddMember = (props) => {
                 email: member.email,
                 nationalIdNumber: member.nationalIdNumber,
                 gender: member.gender ? member.gender : 'MALE',
+                villageGroup: {
+                    id: member.villageGroupId,
+                    villageGroupId: member.villageGroup,
+                },
             });
             console.log(memberState);
         }
@@ -128,25 +134,38 @@ const AddMember = (props) => {
 
 
 
-    const handleSuccess = () => {
+    const handleSuccess = async () => {
         const memberData = {
             ...memberState,
-            phoneNumber: `+254${memberState.phoneNumber}`,
+            phoneNumber: `254${memberState.phoneNumber}`,
         }
         if (validateForm()) {
-            dispatch(addMember(memberData));
+            await dispatch(addMember(memberData));
+            navigate(`/members`);
         } else {
             alert('Please fill in all fields');
         }
     }
 
+    const handleUpdate = async () => {
+        const memberData = {
+            ...memberState,
+            phoneNumber: `254${memberState.phoneNumber}`,
+        }
+        if (validateForm()) {
+            await dispatch(updateMember(memberData));
+            navigate(`/members`);
+        } else {
+            alert('Please fill in all fields');
+        }
+    }
 
     return (
         <Layout>
             <Container>
                 {formState ? <h1>Edit Member</h1> : <h1>Add Member</h1>}
                 <Grid item xs={6}>
-                    <FormControl
+                    {!formState ? <FormControl
                         fullWidth>
                         <InputLabel id="villageGroup">Group</InputLabel>
                         <Select
@@ -155,6 +174,7 @@ const AddMember = (props) => {
                             inputProps={{
                                 id: 'outlined-age-native-simple',
                             }}
+                            value={memberState.villageGroup.id}
                             onChange={handleGroupChange}
                         >
                             <option aria-label="None" value="" />
@@ -162,7 +182,7 @@ const AddMember = (props) => {
                                 <option key={group.id} value={group.id}>{group.villageGroupId}</option>
                             ))}
                         </Select>
-                    </FormControl>
+                    </FormControl> : null}
                     <Divider
                         sx={{
                             my: 4,
@@ -186,7 +206,7 @@ const AddMember = (props) => {
                             variant="outlined"
                             required
                             type='number'
-                            value={setMemberState.phoneNumber}
+                            value={memberState.phoneNumber}
                             onChange={(e) => setMemberState({ ...memberState, phoneNumber: e.target.value })}
                             fullWidth
                             margin="normal"
@@ -236,8 +256,7 @@ const AddMember = (props) => {
                         <ButtonGroup fullWidth margin="normal" variant="contained" color="primary" aria-label="contained primary button group">
                             {formState ? <Button
                                 color='warning'
-                                onClick={() => navigate(`/members/edit/${memberState.id}`)
-                                }
+                                onClick={handleUpdate}
                             >Update</Button> :
                                 <Button
                                     color='success'

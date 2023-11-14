@@ -4,7 +4,7 @@ import { ActionTypes } from "../type";
 
 export const fetchGroups = () => async (dispatch) => {
     try {
-        const response = await baseAPI.get('/village-groups');
+        const response = await baseAPI.get('/village-groups?page=0&size=20000&eagerload=true');
         dispatch({
             type: ActionTypes.FETCH_GROUPS,
             payload: response.data

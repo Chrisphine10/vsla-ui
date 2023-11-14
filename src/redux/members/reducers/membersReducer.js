@@ -4,7 +4,7 @@ import { ActionTypes } from "../type";
 // Define the initial state
 const initialState = {
     members: [],
-    memeber: {},
+    member: null,
     error: null
 };
 

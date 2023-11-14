@@ -1,9 +1,11 @@
 import baseAPI from '../../baseAPI';
+import baseAPI2 from '../../baseAPI2';
 import { ActionTypes } from "../type";
 
 export const fetchMembers = () => async (dispatch) => {
     try {
-        const response = await baseAPI.get('/member-details');
+        // add pagination
+        const response = await baseAPI2.get('/member-details/all');
         const members = response.data.map((member) => ({
             id: member.id,
             userNumber: member.userNumber,
@@ -39,6 +41,8 @@ export const fetchMember = (id) => async (dispatch) => {
             nationalIdNumber: response.data.nationalIdNumber,
             villageGroup: response.data.villageGroup.villageGroupId,
             villageGroupId: response.data.villageGroup.id,
+            gender: response.data.gender,
+            createdAt: response.data.createdAt,
         };
 
         dispatch({
@@ -79,7 +83,9 @@ export const cleanup = () => async (dispatch) => {
 
 export const updateMember = (member) => async (dispatch) => {
     try {
-        const response = await baseAPI.put(`/member-details/${member.id}`, member);
+        console.log(member);
+        const response = await baseAPI.patch(`/member-details/${member.id}`, member);
+        console.log(response.data);
         dispatch({
             type: ActionTypes.UPDATE_MEMBER,
             payload: response.data
