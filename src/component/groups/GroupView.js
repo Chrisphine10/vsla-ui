@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Grid, ButtonGroup, Button, Typography, Paper, Divider } from '@mui/material';
 import Layout from '../menu/Layout';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchGroup, cleanup, fetchMemberGroups } from '../../redux/groups/actions/groupsAction';
+import { fetchGroup, cleanup, fetchMemberGroups, deleteGroup } from '../../redux/groups/actions/groupsAction';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const GroupView = (props) => {
@@ -165,6 +165,7 @@ const GroupView = (props) => {
                         <ButtonGroup fullWidth variant="contained" aria-label="outlined primary button group">
                             <Button color="warning" onClick={() => navigate(`/groups/add/${group.id}`)}>Edit</Button>
                             <Button onClick={() => navigate('/groups')}>Back</Button>
+                            <Button color="error" onClick={() => dispatch(deleteGroup(group.id))}>Delete</Button>
                         </ButtonGroup>
                     </div>
                 </Paper>

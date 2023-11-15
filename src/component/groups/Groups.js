@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, TextField, ButtonGroup, Button, Typography } from '@mui/material';
+import { ButtonGroup, Button, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../menu/Layout';
-import { fetchGroups, deleteGroup } from '../../redux/groups/actions/groupsAction';
+import { fetchGroups } from '../../redux/groups/actions/groupsAction';
 import { useNavigate } from 'react-router-dom';
 
 const Groups = (props) => {
@@ -81,15 +81,6 @@ const Groups = (props) => {
                         >
                             Edit
                         </Button>
-                        <Button
-                            variant="contained"
-                            color="error"
-                            size="small"
-                            onClick={() => {
-                                dispatch(deleteGroup(params.row));
-                                navigate('/groups');
-                            }}
-                        >Delete</Button>
                     </ButtonGroup>
                 </strong>
             ),
