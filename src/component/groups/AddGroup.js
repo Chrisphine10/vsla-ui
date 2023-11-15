@@ -82,6 +82,7 @@ const AddGroup = (props) => {
     }, [dispatch, id]);
 
     const handleSubmit = (e) => {
+        console.log("groupState", groupState);
         const thisGroup = {
             ...groupState,
             latitude: latitude,
@@ -128,7 +129,7 @@ const AddGroup = (props) => {
 
 
     useEffect(() => {
-        if (existingGroup && existingGroup !== null) {
+        if (existingGroup && existingGroup.id !== undefined && existingGroup.id) {
             setGroupState({
                 ...groupState,
                 id: existingGroup.id,
